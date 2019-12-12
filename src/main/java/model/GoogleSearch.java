@@ -2,6 +2,8 @@ package model;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ public class GoogleSearch {
     private static final String SEARCH_URL="https://www.google.com/search?q=%s&start=%d";
     private String searchQuery;
     private int depth;
-    private int curentPages;
+    private int currentPages;
     private List<Document> documentList;
 
     public List<Document> getDocumentList() {
@@ -50,13 +52,17 @@ public class GoogleSearch {
         if (getDepth()==0){
             documentList.add(getDocument());
         } else{
-            while (this.curentPages<getDepth()){
-                documentList.add(getDocument(this.curentPages));
-                this.curentPages+=10;
+            while (this.currentPages <getDepth()){
+                documentList.add(getDocument(this.currentPages));
+                this.currentPages +=10;
             }
         }
         for (Document d:documentList){
-
+            Element content = d.getElementById("search");
+            Elements items = content.getElementsByClass("g");
+            for (Element item:items) {
+                this.searchResults.add(new SearchSite(item.html()));
+            }
         }
     }
 

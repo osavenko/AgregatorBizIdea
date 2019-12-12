@@ -1,14 +1,16 @@
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-import model.GoogleSearch;
+import model.*;
 import org.jsoup.nodes.Document;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import javax.naming.directory.SearchResult;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GoogleSearcheTest {
     @Test
@@ -29,6 +31,7 @@ public class GoogleSearcheTest {
                 System.out.println(document.title());
                 System.out.println(document.charset());
                 System.out.println(document.location());
+
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -48,6 +51,19 @@ public class GoogleSearcheTest {
         Assert.assertNotNull(googleSearch.getDocumentList());
         Assert.assertEquals(googleSearch.getDocumentList().size(),1);
         Assert.assertNotNull(googleSearch.getDocumentList().get(0));
+        try {
+            googleSearch.search();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        SearchResults sr = googleSearch.getSearchResults();
+        //Assert.assertEquals(sr.getMap().size(),10);
+        for (Map.Entry<Integer, model.SearchSite> entry:sr.getMap().entrySet()){
+            System.out.println("***********");
+            System.out.print("->");
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue().getOriginal());
+        }
     }
     @Test
     public void testGetDocumentsListTen() {

@@ -4,8 +4,17 @@ public class SearchSite {
     private String url;
     private String link;
     private String title;
+    private String original;
+
+    public String getOriginal() {
+        return original;
+    }
 
     public SearchSite() {
+    }
+
+    public SearchSite(String original) {
+        this.original = original;
     }
 
     public SearchSite(String url, String link, String title) {
