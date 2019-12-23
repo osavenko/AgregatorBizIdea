@@ -62,18 +62,14 @@ public class GoogleSearch {
             Element content = d.getElementById("search");
             Elements bkWMgd_s = content.getElementsByClass("bkWMgd");
             for(Element curentBkWMgd:bkWMgd_s){
-                Elements items = content.getElementsByClass("rc");
-                for (Element item:items) {
-                    this.searchResults.add(new SearchSite(item.html()));
+                Elements srg_s = curentBkWMgd.getElementsByClass("srg");
+                for (Element curentSrg:srg_s) {
+                    Elements items = content.getElementsByClass("rc");
+                    for (Element item : items) {
+                        this.searchResults.add(new SearchSite(item.html()));
+                    }
                 }
-
             }
-/*
-            Elements items = content.getElementsByClass("rc");
-            for (Element item:items) {
-                this.searchResults.add(new SearchSite(item.html()));
-            }
-*/
         }
     }
 

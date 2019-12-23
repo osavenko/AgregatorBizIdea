@@ -42,7 +42,7 @@ public class GoogleSearcheTest {
     @Test
     public void testGetDocumentsListOne() {
         GoogleSearch googleSearch = new GoogleSearch();
-        googleSearch.setDepth(50);
+        googleSearch.setDepth(0);
         googleSearch.setSearchQuery("бизнес разведение кроликов");
         try {
             googleSearch.search();
