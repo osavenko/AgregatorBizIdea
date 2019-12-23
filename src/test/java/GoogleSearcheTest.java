@@ -1,4 +1,5 @@
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import ex.GoogleParseException;
 import model.*;
 import org.jsoup.nodes.Document;
 import org.junit.Assert;
@@ -41,38 +42,45 @@ public class GoogleSearcheTest {
     @Test
     public void testGetDocumentsListOne() {
         GoogleSearch googleSearch = new GoogleSearch();
-        googleSearch.setDepth(0);
-        googleSearch.setSearchQuery("бизнес идеи");
+        googleSearch.setDepth(50);
+        googleSearch.setSearchQuery("бизнес разведение кроликов");
         try {
             googleSearch.search();
         }catch (IOException e){
             e.printStackTrace();
+        } catch (GoogleParseException e) {
+            e.printStackTrace();
         }
         Assert.assertNotNull(googleSearch.getDocumentList());
-        Assert.assertEquals(googleSearch.getDocumentList().size(),1);
+        //Assert.assertEquals(googleSearch.getDocumentList().size(),1);
         Assert.assertNotNull(googleSearch.getDocumentList().get(0));
         try {
             googleSearch.search();
         } catch (IOException e){
             e.printStackTrace();
+        } catch (GoogleParseException e) {
+            e.printStackTrace();
         }
         SearchResults sr = googleSearch.getSearchResults();
-        //Assert.assertEquals(sr.getMap().size(),10);
+
         for (Map.Entry<Integer, model.SearchSite> entry:sr.getMap().entrySet()){
-            System.out.println("***********");
-            System.out.print("->");
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue().getOriginal());
+            //System.out.println("***********");
+            //System.out.print("->");
+            //System.out.println(entry.getKey());
+            System.out.println(entry.getKey()+" -> "+entry.getValue().getLink());
+            System.out.println(entry.getValue().getUrl());
         }
     }
     @Test
     public void testGetDocumentsListTen() {
         GoogleSearch googleSearch = new GoogleSearch();
         googleSearch.setDepth(100);
-        googleSearch.setSearchQuery("бизнес идеи");
+        googleSearch.setSearchQuery("бизнес идеи ");
         try {
             googleSearch.search();
         }catch (IOException e){
+            e.printStackTrace();
+        } catch (GoogleParseException e) {
             e.printStackTrace();
         }
         Assert.assertNotNull(googleSearch.getDocumentList());

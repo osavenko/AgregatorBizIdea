@@ -1,5 +1,6 @@
 package model;
 
+import ex.GoogleParseException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -47,7 +48,7 @@ public class GoogleSearch {
         this.searchResults = new SearchResults();
         this.searchQuery = searchQuery;
     }
-    public void search() throws IOException {
+    public void search() throws IOException, GoogleParseException {
         documentList = new ArrayList<Document>();
         if (getDepth()==0){
             documentList.add(getDocument());
@@ -59,10 +60,20 @@ public class GoogleSearch {
         }
         for (Document d:documentList){
             Element content = d.getElementById("search");
-            Elements items = content.getElementsByClass("g");
+            Elements bkWMgd_s = content.getElementsByClass("bkWMgd");
+            for(Element curentBkWMgd:bkWMgd_s){
+                Elements items = content.getElementsByClass("rc");
+                for (Element item:items) {
+                    this.searchResults.add(new SearchSite(item.html()));
+                }
+
+            }
+/*
+            Elements items = content.getElementsByClass("rc");
             for (Element item:items) {
                 this.searchResults.add(new SearchSite(item.html()));
             }
+*/
         }
     }
 
